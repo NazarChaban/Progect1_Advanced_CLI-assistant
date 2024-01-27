@@ -1,12 +1,12 @@
-from datetime import datetime
-
-from src.classes import Record, AddressBook
-from src.notes import NoteManager, Note
-from src.sorter import sorter
-from prompt_toolkit import prompt
 from prompt_toolkit.completion import FuzzyWordCompleter
+from user_interface import ConsoleUserInterface
+from classes import Record, AddressBook
 from prompt_toolkit.styles import Style
+from notes import NoteManager, Note
 from prettytable import PrettyTable
+from prompt_toolkit import prompt
+from sorter import sorter
+from datetime import datetime
 import os
 
 
@@ -185,25 +185,7 @@ def handle_phone(name):
 
 @input_error
 def handle_show_all():
-    if not ADDRESS_BOOK.data:
-        return "The address book is empty."
-
-    table = PrettyTable(['Name', 'Phones', 'Birthday', 'Email'])
-    table.align = 'l'
-
-    total_contacts = len(ADDRESS_BOOK.data)
-
-    for idx, (name, record) in enumerate(ADDRESS_BOOK.data.items()):
-        phones = "\n".join(map(str, record.phones))
-        birthday = record.birthday if record.birthday else ""
-        email = record.email if record.email else ""
-        table.add_row([name, phones, birthday if birthday != "" else None, email if email != "" else None])
-
-        # Add separator line if it's not the last contact
-        if idx < total_contacts - 1:
-            table.add_row(["-" * 20, "-" * 20, "-" * 20, "-" * 20])
-
-    return str(table)
+    return ADDRESS_BOOK.show_all()
 
 
 @input_error
@@ -215,15 +197,16 @@ def handle_search(query):
 def handle_open():
     global ADDRESS_BOOK
     global NOTES_MANAGER
+    interface = ConsoleUserInterface()
     csv_file = "new_book.csv"
     csv_file_notes = "notes_save.csv"
     try:
-        ADDRESS_BOOK = AddressBook(csv_file)
-        NOTES_MANAGER = NoteManager(csv_file_notes)
+        ADDRESS_BOOK = AddressBook(csv_file, interface)
+        NOTES_MANAGER = NoteManager(csv_file_notes, interface)
         return f"Address book opened from {csv_file}"
     except FileNotFoundError:
-        ADDRESS_BOOK = AddressBook(None)
-        NOTES_MANAGER = NoteManager(None)
+        ADDRESS_BOOK = AddressBook(None, interface)
+        NOTES_MANAGER = NoteManager(None, interface)
         return "Starting with an empty address book."
 
 

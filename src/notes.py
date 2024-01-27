@@ -1,3 +1,4 @@
+from user_interface import UserInterface
 from prettytable import PrettyTable
 from datetime import datetime
 import csv
@@ -41,9 +42,10 @@ class Note:
 
 class NoteManager:
 
-    def __init__(self, csv_file=None):
+    def __init__(self, csv_file=None, user_interface: UserInterface = None):
         self.csv_file = csv_file
         self.notes = []
+        self.interface = user_interface
         if csv_file is not None:
             self.load_notes()
 
@@ -130,12 +132,14 @@ class NoteManager:
         print("Notes cleared successfully.")
 
     def print_notes(self):
-        if not self.notes:
-            print("No notes available.")
+        if self.interface is not None:
+            self.interface.display_notes(self)
         else:
-            table = PrettyTable(['Author', 'Title', 'Note', 'Tags', 'Date'])
-            table.align = 'l'
-            for note in self.notes:
-                table.add_row([note.author, note.title, note.note, note.tags, note.date])
-            print(table)
-
+            if not self.notes:
+                print("No notes available.")
+            else:
+                table = PrettyTable(['Author', 'Title', 'Note', 'Tags', 'Date'])
+                table.align = 'l'
+                for note in self.notes:
+                    table.add_row([note.author, note.title, note.note, note.tags, note.date])
+                print(table)

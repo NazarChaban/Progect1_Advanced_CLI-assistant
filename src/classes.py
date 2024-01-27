@@ -1,9 +1,9 @@
+from user_interface import UserInterface
 from prettytable import PrettyTable
-from collections import UserDict
 from datetime import date, datetime
+from collections import UserDict
 import csv
 import re
-
 
 class Field:
     def __init__(self, value):
@@ -130,10 +130,11 @@ class Record:
 
 
 class AddressBook(UserDict):
-    def __init__(self, csv_file=None):
+    def __init__(self, csv_file=None, user_interface: UserInterface = None):
         super().__init__()
         self.csv_file = csv_file
         self.records = []
+        self.interface = user_interface
         if csv_file is not None:
             self.read_from_file()
 
@@ -186,6 +187,30 @@ class AddressBook(UserDict):
             yield f"Page {page_number}:\n" + "\n".join(str(record) for record in page)
             start += page_size
             page_number += 1
+
+    def show_all(self):
+        if self.interface is not None:
+            return self.interface.display_contacts(self)
+        else:
+            if not self.data:
+                return "The address book is empty."
+
+            table = PrettyTable(['Name', 'Phones', 'Birthday', 'Email'])
+            table.align = 'l'
+
+            total_contacts = len(self.data)
+
+            for idx, (name, record) in enumerate(self.data.items()):
+                phones = "\n".join(map(str, record.phones))
+                birthday = record.birthday if record.birthday else ""
+                email = record.email if record.email else ""
+                table.add_row([name, phones, birthday if birthday != "" else None, email if email != "" else None])
+
+                # Add separator line if it's not the last contact
+                if idx < total_contacts - 1:
+                    table.add_row(["-" * 20, "-" * 20, "-" * 20, "-" * 20])
+        
+        return str(table)
 
     def save_to_disk(self):
         with open(self.csv_file, 'w', newline='') as file:
