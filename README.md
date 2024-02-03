@@ -1,5 +1,5 @@
 # Made by P.O.N.D.A.M. team
-# CLI Peersonal Assistant
+# CLI Personal Assistant
 
 This is a Command Line Interface (CLI) your personal assistant written in Python. It allows users to manage contact information, including names, phone numbers, and birthdays. Manage notes, including authors, titles, notes and tags. Also it provides function of sorting certain folder.
 
@@ -46,7 +46,8 @@ To use the CLI Assistant, you need to have Python installed on your system. If y
 Once Python is installed, clone this repository to your local machine.
 
 ## Usage
-For better experience use `poetry` library. Install to global environment by command
+### Poetry venv
+For better experience use `poetry` library. Install to global environment by command:
 ```sh
 pip install poetry
 ```
@@ -56,7 +57,20 @@ poetry shell
 poetry install
 ```
 
+### Pip
+Or if you don't like poetry) just run this command:
+```sh
+pip install -r requirements.txt
+```
 
+### Docker
+Also there is an opportunity to run this Assistant with docker
+```sh
+docker build -t <image_name> .
+docker run -it --name <process_name> <image_name>
+```
+
+### Start working
 To start the application, run the following command in your terminal:
 ```sh
 python main.py
@@ -65,9 +79,10 @@ python main.py
 or download Assistant as package by command:
 ```sh
 pip install -e .
-
 assistant
 ```
+
+
 
 Once the application is running, you will be able to use the following commands:
 

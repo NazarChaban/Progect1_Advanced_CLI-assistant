@@ -2,9 +2,9 @@ from setuptools import setup, find_namespace_packages
 
 setup(
     name='console_assistant',
-    version='0.0.1',
+    version='1.0',
     description='console_assistant',
-    url='https://github.com/Barashuk1/P.O.N.D.A.M',
+    url='https://github.com/Vivern0/Progect1_Advanced_CLI-assistant.git',
     author='P.A.N.D.A.M',
     license='MIT',
     packages=find_namespace_packages(),
