@@ -54,6 +54,8 @@ pip install poetry
 and then use this command in project directory to run poetry venv and install dependencies:
 ```sh
 poetry shell
+```
+```sh
 poetry install
 ```
 
@@ -67,6 +69,8 @@ pip install -r requirements.txt
 Also there is an opportunity to run this Assistant with docker
 ```sh
 docker build -t <image_name> .
+```
+```sh
 docker run -it --name <process_name> <image_name>
 ```
 
@@ -79,6 +83,8 @@ python main.py
 or download Assistant as package by command:
 ```sh
 pip install -e .
+```
+```sh
 assistant
 ```
 
