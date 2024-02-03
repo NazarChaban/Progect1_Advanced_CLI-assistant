@@ -356,11 +356,13 @@ def show_help():
         search [запит]: Пошук в адресній книзі за символами.
         sort: Сортує необхідну папку.
         create note [автор] [назва] : Додає нотатку
-        append note tags [назва], [тег_1 тег_2...] : Додає тег до нотатків
+        append note tags [назва], [тег_1 тег_2...] : Додає тег до нотаток
         showing all notes : Показати усі нотатки
         deletion note [назва] : Видаляє нотатку
         clear notes : Видаляє усі нотатки
-        searching note by tags [тег_1 тег_2...] : Шукати по тєгам
+        searching note by tags [тег_1 тег_2...] : Шукати по тегам
+        exit/close/good bye: Вийти з програми.
+        clear: Очистити термінал.
         """
 
     commands = [line.strip()
@@ -402,10 +404,13 @@ COMMANDS = {
     'show birthday list': handle_show_birthday_list
 }
 
-command_list = ['help', 'hello', 'save', 'add', 'change birthday', "change email", "change phone", 'remove',
-                'info', 'show all', 'set birthday', "set email", 'days to birthday',
-                'delete', "searching note by tags", 'search', 'sort', "append note tags", "create note",
-                "showing all notes", "deletion note", "clear notes", 'show birthday list']
+command_list = ['help', 'hello', 'save', 'add', 'change birthday',
+                "change email", "change phone", 'remove',
+                'info', 'show all', 'set birthday', "set email",
+                'days to birthday', 'delete', "searching note by tags",
+                'search', 'sort', "append note tags", "create note",
+                "showing all notes", "deletion note", "clear notes",
+                'show birthday list', 'exit', 'close', 'good bye', 'clear']
 
 custom_style = Style.from_dict({
     'prompt': 'bg:#708090 #ffffff',
@@ -430,18 +435,24 @@ def main():
 
     while True:
         user_input = get_user_input()
+
+        if user_input == 'clear':
+            os.system('cls' if os.name == 'nt' else 'clear')
+            continue
+
         if user_input in ["good bye", "close", "exit"]:
             print(handle_save(current_directory))
             print("Good bye!")
             break
+
         for command in COMMANDS.keys():
             if user_input.startswith(command):
                 args = user_input[len(command):].split()
                 res = COMMANDS[command](*args)
                 print(res) if res is not None else ...
                 break
-        else:
-            print("Unknown command. Please try again.")
+            else:
+                print("Unknown command. Please try again.")
 
 
 if __name__ == "__main__":
